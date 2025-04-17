@@ -11,16 +11,23 @@ A full-featured project management platform clone built with Django and Next.js,
 - PostgreSQL database
 - JWT Authentication
 
-### Frontend (Coming Soon)
-- Next.js 14+
+### Frontend
+- Next.js 14
+- TypeScript
 - TailwindCSS
 - shadcn/ui components
-- Real-time updates with WebSocket
+- Zustand for state management
+- Real-time updates (coming soon)
 
 ## Features
 
 - [x] Custom User Model with email authentication
 - [x] Team Management
+- [x] Client-side authentication with:
+  - Protected routes and API endpoints
+  - Persistent sessions using cookies
+  - Smooth SPA navigation
+  - Loading skeletons for better UX
 - [ ] Workspaces
 - [ ] Boards with multiple views (Table, Kanban, Calendar)
 - [ ] Real-time collaboration
@@ -33,13 +40,20 @@ A full-featured project management platform clone built with Django and Next.js,
 
 ```
 monday/
-├── backend/               # Django backend
+├── backend/              # Django backend
 │   ├── accounts/         # User and Team management
 │   ├── boards/           # Board and item management
 │   ├── workspace/        # Workspace organization
 │   ├── core/            # Shared functionality
 │   └── monday_clone/    # Project settings
-└── frontend/            # Next.js frontend (coming soon)
+└── frontend/            # Next.js frontend
+    ├── app/             # Next.js app directory
+    ├── components/      # React components
+    │   ├── auth/        # Authentication components
+    │   ├── layout/      # Layout components
+    │   └── ui/          # UI components
+    ├── lib/             # Utilities and store
+    └── types/           # TypeScript types
 ```
 
 ## Getting Started
@@ -74,6 +88,20 @@ python manage.py runserver
 
 Access the admin interface at: http://localhost:8000/admin
 
+### Frontend Setup
+
+1. Install dependencies:
+```bash
+pnpm install
+```
+
+2. Start development server:
+```bash
+pnpm dev
+```
+
+Access the frontend at: http://localhost:3000
+
 ### Environment Variables
 
 Create a `.env` file in the backend directory with:
@@ -84,9 +112,14 @@ SECRET_KEY=your-secret-key
 DATABASE_URL=your-database-url
 ```
 
-## API Documentation
+## Authentication Flow
 
-Coming soon...
+1. User logs in with email/password
+2. Server validates credentials and returns JWT tokens
+3. Tokens are stored in HTTP-only cookies
+4. Client-side route protection using AuthProvider
+5. Protected routes show loading skeletons while checking auth
+6. Smooth SPA navigation between public/protected routes
 
 ## Contributing
 
