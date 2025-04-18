@@ -30,7 +30,13 @@ env/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
-media/
+
+# Frontend tests and mocks
+frontend/mocks/
+frontend/__tests__/
+frontend/jest.setup.js
+frontend/vitest.setup.ts
+/media/
 static/
 
 # Environment variables
