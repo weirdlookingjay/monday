@@ -64,12 +64,20 @@ class Group(models.Model):
 
 class Item(models.Model):
     """Individual item/task within a board group."""
+    STATUS_CHOICES = [
+        ('not_started', 'Not Started'),
+        ('in_progress', 'In Progress'),
+        ('done', 'Done'),
+        ('stuck', 'Stuck'),
+    ]
+
     group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='items')
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     position = models.PositiveIntegerField()
     values = models.JSONField(default=dict)  # Stores the values for each column
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='not_started')
     
     class Meta:
         ordering = ['position']

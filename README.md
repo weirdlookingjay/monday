@@ -56,6 +56,12 @@ monday/
     └── types/           # TypeScript types
 ```
 
+## Production Readiness
+
+- **All debug panels, logs, and sensitive authentication state displays have been removed from the frontend.**
+- The dashboard and all user-facing pages are now production-ready and do not leak sensitive information.
+- If you still see debug info, try a hard refresh (Ctrl+Shift+R) or clear your browser cache.
+
 ## Getting Started
 
 ### Backend Setup
