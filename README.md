@@ -23,6 +23,10 @@ A full-featured project management platform clone built with Django and Next.js,
 
 - [x] Custom User Model with email authentication
 - [x] Team Management
+- [x] Project (Board) creation from the dashboard UI
+- [x] Group creation from the task modal UI
+- [x] Tasks can be associated with any project and group
+- [x] Projects link in the sidebar for quick access
 - [x] Client-side authentication with:
   - Protected routes and API endpoints
   - Persistent sessions using cookies
@@ -62,7 +66,24 @@ monday/
 - The dashboard and all user-facing pages are now production-ready and do not leak sensitive information.
 - If you still see debug info, try a hard refresh (Ctrl+Shift+R) or clear your browser cache.
 
+## Recent Changes
+
+- Added ability to create Projects (Boards) from the dashboard UI
+- Added ability to create Groups within a project from the task creation modal
+- Added a "Projects" link in the sidebar for easier navigation
+- Improved task creation flow: tasks must be associated with a project and group
+
 ## Getting Started
+
+### Version Control
+
+This project uses git for version control. After making changes, commit and push:
+
+```bash
+git add .
+git commit -m "Describe your changes"
+git push
+```
 
 ### Backend Setup
 

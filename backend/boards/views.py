@@ -13,6 +13,40 @@ def list_groups(request):
     groups = Group.objects.all().values('id', 'name')
     return Response(list(groups))
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def list_boards(request):
+    from .models import Board
+    boards = Board.objects.all().values('id', 'name')
+    return Response(list(boards))
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_board(request):
+    from .models import Board
+    name = request.data.get('name')
+    description = request.data.get('description', '')
+    workspace = request.user.workspace_set.first()
+    if not name:
+        return Response({'error': 'Name is required'}, status=400)
+    board = Board.objects.create(name=name, description=description, workspace=workspace, created_by=request.user)
+    return Response({'id': board.id, 'name': board.name, 'description': board.description}, status=201)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_group(request):
+    from .models import Group, Board
+    name = request.data.get('name')
+    board_id = request.data.get('board')
+    if not name or not board_id:
+        return Response({'error': 'Name and board are required'}, status=400)
+    try:
+        board = Board.objects.get(id=board_id)
+    except Board.DoesNotExist:
+        return Response({'error': 'Board not found'}, status=404)
+    group = Group.objects.create(name=name, board=board)
+    return Response({'id': group.id, 'name': group.name, 'board': board.id}, status=201)
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_task(request):
