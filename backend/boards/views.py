@@ -22,6 +22,36 @@ def list_groups(request):
     groups = Group.objects.all().values('id', 'name')
     return Response(list(groups))
 
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def update_group(request, group_id):
+    try:
+        group = Group.objects.get(id=group_id)
+    except Group.DoesNotExist:
+        return Response({'error': 'Group not found.'}, status=404)
+    name = request.data.get('name')
+    color = request.data.get('color')
+    updated = False
+    if name:
+        group.name = name
+        updated = True
+    if color:
+        group.color = color
+        updated = True
+    if updated:
+        group.save()
+    return Response({'id': group.id, 'name': group.name, 'color': group.color, 'board': group.board.id})
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_group(request, group_id):
+    try:
+        group = Group.objects.get(id=group_id)
+    except Group.DoesNotExist:
+        return Response({'error': 'Group not found.'}, status=404)
+    group.delete()
+    return Response({'success': True})
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def list_boards(request):

@@ -11,6 +11,8 @@ A full-featured project management platform clone built with Django and Next.js,
 - PostgreSQL database
 - JWT Authentication
 - `/api/users/` endpoint for user info lookup (enables assignee name/email display)
+- `/api/groups/<id>/` (PATCH) for renaming groups
+- `/api/groups/<id>/delete/` (DELETE) for deleting groups
 
 ### Frontend
 - Next.js 14
@@ -26,6 +28,8 @@ A full-featured project management platform clone built with Django and Next.js,
 - [x] Team Management
 - [x] Project (Board) creation from the dashboard UI
 - [x] Group creation from the task modal UI
+- [x] Rename groups from the dashboard UI
+- [x] Delete groups from the dashboard UI
 - [x] Tasks can be associated with any project and group
 - [x] Projects link in the sidebar for quick access
 - [x] Assignee field now displays user name or email (not just ID!) in task modal
@@ -73,6 +77,7 @@ monday/
 
 - Added ability to create Projects (Boards) from the dashboard UI
 - Added ability to create Groups within a project from the task creation modal
+- Added ability to rename and delete Groups from the dashboard UI
 - Added a "Projects" link in the sidebar for easier navigation
 - Improved task creation flow: tasks must be associated with a project and group
 
