@@ -2,8 +2,44 @@ from django.db.models import Count
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from .models import Item
+from .models import Item, Group
 from .serializers import TaskStatsSerializer, ItemSerializer
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def list_groups(request):
+    groups = Group.objects.all().values('id', 'name')
+    return Response(list(groups))
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_task(request):
+    """Create a new task (Item) in a board group."""
+    from .models import Item, Group
+    group_id = request.data.get('group')
+    values = request.data.get('values', {})
+    status = request.data.get('status', 'not_started')
+    # Automatically determine the next available position in the group
+    from django.db.models import Max
+    if not group_id:
+        return Response({'error': 'Group is required.'}, status=400)
+    try:
+        group = Group.objects.get(id=group_id)
+    except Group.DoesNotExist:
+        return Response({'error': 'Group not found.'}, status=404)
+    max_position = Item.objects.filter(group=group).aggregate(Max('position'))['position__max']
+    next_position = (max_position or 0) + 1
+    item = Item.objects.create(
+        group=group,
+        created_by=request.user,
+        values=values,
+        status=status,
+        position=next_position
+    )
+    from .serializers import ItemSerializer
+    return Response(ItemSerializer(item).data, status=201)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
