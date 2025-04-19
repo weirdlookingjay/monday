@@ -3,9 +3,18 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .models import Item, Group
-from .serializers import TaskStatsSerializer, ItemSerializer
+from .serializers import TaskStatsSerializer, ItemSerializer, SimpleUserSerializer
+from django.contrib.auth import get_user_model
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def list_users(request):
+    User = get_user_model()
+    users = User.objects.all()
+    serializer = SimpleUserSerializer(users, many=True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -46,6 +55,25 @@ def create_group(request):
         return Response({'error': 'Board not found'}, status=404)
     group = Group.objects.create(name=name, board=board)
     return Response({'id': group.id, 'name': group.name, 'board': board.id}, status=201)
+
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def update_task(request, item_id):
+    from .models import Item
+    from .serializers import ItemSerializer
+    try:
+        item = Item.objects.get(id=item_id)
+    except Item.DoesNotExist:
+        return Response({'error': 'Task not found.'}, status=404)
+
+    data = request.data.copy()
+    # Allow updating values (name, description, due_date, assignee, etc.)
+    if 'values' in data:
+        item.values.update(data['values'])
+    if 'status' in data:
+        item.status = data['status']
+    item.save()
+    return Response(ItemSerializer(item).data)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

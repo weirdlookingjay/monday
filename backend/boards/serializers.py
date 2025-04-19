@@ -1,5 +1,13 @@
 from rest_framework import serializers
 from .models import Board, Item, Group, Column, Activity
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+class SimpleUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'first_name', 'last_name', 'email']
 
 class TaskStatsSerializer(serializers.Serializer):
     """Serializer for task statistics."""

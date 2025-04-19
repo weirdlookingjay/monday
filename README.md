@@ -10,6 +10,7 @@ A full-featured project management platform clone built with Django and Next.js,
 - Channels for real-time updates
 - PostgreSQL database
 - JWT Authentication
+- `/api/users/` endpoint for user info lookup (enables assignee name/email display)
 
 ### Frontend
 - Next.js 14
@@ -27,6 +28,8 @@ A full-featured project management platform clone built with Django and Next.js,
 - [x] Group creation from the task modal UI
 - [x] Tasks can be associated with any project and group
 - [x] Projects link in the sidebar for quick access
+- [x] Assignee field now displays user name or email (not just ID!) in task modal
+- [x] `/api/users/` endpoint for user info
 - [x] Client-side authentication with:
   - Protected routes and API endpoints
   - Persistent sessions using cookies
@@ -77,8 +80,15 @@ monday/
 
 ### Version Control
 
-This project uses git for version control. After making changes, commit and push:
+This project uses git for version control. To get started:
 
+```bash
+git init
+git add .
+git commit -m "Initial commit"
+```
+
+For ongoing work:
 ```bash
 git add .
 git commit -m "Describe your changes"
