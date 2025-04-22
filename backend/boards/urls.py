@@ -12,4 +12,7 @@ urlpatterns = [
     path('groups/<int:group_id>/delete/', views.delete_group, name='delete-group'),
     path('list/', views.list_boards, name='list-boards'),
     path('create/', views.create_board, name='create-board'),
+    path('boards/<int:board_id>/', views.update_board, name='update-board'),
+    path('boards/<int:board_id>/delete/', views.delete_board, name='delete-board'),
 ]
+

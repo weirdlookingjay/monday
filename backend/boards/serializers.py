@@ -19,6 +19,8 @@ class TaskStatsSerializer(serializers.Serializer):
 
 class ItemSerializer(serializers.ModelSerializer):
     """Serializer for board items."""
+    group = serializers.PrimaryKeyRelatedField(queryset=Group.objects.all(), required=False)
+
     class Meta:
         model = Item
-        fields = ['id', 'created_by', 'created_at', 'updated_at', 'status', 'values']
+        fields = ['id', 'created_by', 'created_at', 'updated_at', 'status', 'values', 'group']

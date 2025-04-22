@@ -1,5 +1,12 @@
 # Monday.com Clone
 
+## Recent Updates (April 2025)
+- Board assignee display now shows the correct user name in the dropdown only (no redundant label)
+- Fixed backend and frontend integration for assignees (now displays first/last name, not just ID)
+- Cleaned up board card UI by removing unnecessary separators and dashes
+- Improved type safety and error handling in the frontend
+- All changes committed and tracked in Git
+
 A full-featured project management platform clone built with Django and Next.js, implementing core Monday.com functionalities.
 
 ## Tech Stack

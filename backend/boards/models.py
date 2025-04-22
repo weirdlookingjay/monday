@@ -9,9 +9,11 @@ class Board(models.Model):
     description = models.TextField(blank=True)
     workspace = models.ForeignKey(Workspace, on_delete=models.CASCADE, related_name='boards')
     folder = models.ForeignKey(WorkspaceFolder, on_delete=models.SET_NULL, null=True, blank=True, related_name='boards')
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_boards')
+    assignee = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='assigned_boards')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    status = models.CharField(max_length=20, default='todo')  # Added for kanban support
     
     VIEW_OPTIONS = [
         ('table', 'Table'),

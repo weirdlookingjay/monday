@@ -37,6 +37,34 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'WARNING',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'WARNING',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'WARNING',
+            'propagate': False,
+        },
+        'django.db.backends': {
+            'handlers': ['console'],
+            'level': 'WARNING',  # Suppress SQL queries unless error
+            'propagate': False,
+        },
+    },
+}
+
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -56,9 +84,11 @@ INSTALLED_APPS = [
     "boards",
     "workspace",
     "core",
+    "activity",
 ]
 
 MIDDLEWARE = [
+    "monday_clone.middleware.DebugRequestHeadersMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -163,7 +193,12 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend',
     ],
+    'UNAUTHENTICATED_USER': None,
+    'UNAUTHENTICATED_TOKEN': None,
+    'EXCEPTION_HANDLER': 'core.exception_handler.custom_exception_handler',
 }
+
+
 
 # CORS settings
 # CORS_ALLOW_ALL_ORIGINS = True  # Removed to fix CORS preflight for Authorization header
@@ -173,16 +208,11 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
 
-CORS_ALLOW_HEADERS = [
-    "accept",
-    "accept-encoding",
-    "authorization",  # <-- CRITICAL: allow JWT Authorization header
-    "content-type",
-    "dnt",
-    "origin",
-    "user-agent",
-    "x-csrftoken",
-    "x-requested-with",
+from corsheaders.defaults import default_headers
+
+# Allow Authorization header for JWT, plus all defaults
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    "authorization",
 ]
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # React/Next.js frontend
