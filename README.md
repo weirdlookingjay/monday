@@ -49,7 +49,14 @@ A full-featured project management platform clone built with Django and Next.js,
 - [ ] Workspaces
 - [ ] Boards with multiple views (Table, Kanban, Calendar)
 - [ ] Real-time collaboration
-- [ ] Automations
+- [x] Automation Center with:
+    - Robot head icon in navbar
+    - Automation Center sidebar link with consistent icon
+    - User dropdown menu (profile, settings, logout)
+    - Notification bell (with unread count)
+    - Improved layout and sidebar/main content alignment
+    - UI consistency with dashboard
+    - Type safety and lint fixes
 - [ ] File attachments
 - [ ] Activity tracking
 - [ ] Notifications
@@ -87,6 +94,12 @@ monday/
 - Added ability to rename and delete Groups from the dashboard UI
 - Added a "Projects" link in the sidebar for easier navigation
 - Improved task creation flow: tasks must be associated with a project and group
+- Added Automation Center section:
+    - Robot head icon in navbar
+    - Sidebar link with consistent icon
+    - User dropdown menu and notification bell
+    - Improved layout/alignment and type safety
+    - UI consistency with dashboard
 
 ## Getting Started
 

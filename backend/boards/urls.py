@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from . import api_hf_task
+from .api_hf_task import get_csrf_token
 
 urlpatterns = [
     path('users/', views.list_users, name='list-users'),
@@ -14,5 +16,8 @@ urlpatterns = [
     path('create/', views.create_board, name='create-board'),
     path('boards/<int:board_id>/', views.update_board, name='update-board'),
     path('boards/<int:board_id>/delete/', views.delete_board, name='delete-board'),
+    path('nlp-create-task/', api_hf_task.nlp_create_task, name='nlp-create-task'),
+    path('get-csrf/', get_csrf_token, name='get-csrf'),
+    path('status-choices/', views.get_status_choices, name='status-choices'),
 ]
 

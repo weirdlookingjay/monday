@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
-import os
 from dotenv import load_dotenv
 import dj_database_url
 
@@ -34,6 +33,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+
+import os
+
+# Hugging Face API Key (set this in your environment)
+HF_API_KEY = os.environ.get('HF_API_KEY', '')
 
 # Application definition
 
@@ -85,6 +89,7 @@ INSTALLED_APPS = [
     "workspace",
     "core",
     "activity",
+    "automation"
 ]
 
 MIDDLEWARE = [
@@ -185,7 +190,7 @@ AUTH_USER_MODEL = 'accounts.User'
 # REST Framework settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'core.logging_jwt_auth.LoggingJWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
@@ -203,10 +208,12 @@ REST_FRAMEWORK = {
 # CORS settings
 # CORS_ALLOW_ALL_ORIGINS = True  # Removed to fix CORS preflight for Authorization header
 CORS_ALLOW_CREDENTIALS = True
-
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
+CSRF_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_SECURE = False
 
 from corsheaders.defaults import default_headers
 
@@ -259,3 +266,51 @@ DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', EMAIL_HOST_USER)
 # Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# --- DEBUG LOGGING FOR AUTH ---
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '[{levelname}] {asctime} {name}: {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '[{levelname}] {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'rest_framework': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'rest_framework_simplejwt': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
+}
+# --- END DEBUG LOGGING ---
+
+APPEND_SLASH=False 

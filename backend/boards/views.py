@@ -4,6 +4,22 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .models import Item, Group
 from .serializers import TaskStatsSerializer, ItemSerializer, SimpleUserSerializer
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_status_choices(request):
+    """Return all available status options from Group table (all boards)."""
+    from .models import Group
+    import sys
+    groups = Group.objects.all().order_by('position')
+    print(f"[DEBUG] Found {groups.count()} groups (all boards)", file=sys.stderr)
+    choices = [
+        {"value": str(group.id), "label": group.name, "color": group.color}
+        for group in groups
+    ]
+    print(f"[DEBUG] Choices returned: {choices}", file=sys.stderr)
+    return Response(choices)
+
 from django.contrib.auth import get_user_model
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
