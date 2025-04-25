@@ -4,8 +4,10 @@
 - Board assignee display now shows the correct user name in the dropdown only (no redundant label)
 - Fixed backend and frontend integration for assignees (now displays first/last name, not just ID)
 - Cleaned up board card UI by removing unnecessary separators and dashes
-- Improved type safety and error handling in the frontend
-- All changes committed and tracked in Git
+- **Automation PATCH API integration improved:** All frontend PATCH/PUT requests for automations now send correct, type-safe payloads matching backend expectations. No more 400 errors due to missing or mis-typed fields.
+- **Strict type safety:** The frontend now uses a strict `AutomationConfig` type for automations, replacing all `any` usage and preventing runtime and type errors.
+- **Codebase linting:** Unused imports and variables have been removed, and all code is now TypeScript-compliant and lint-free.
+- See below for more details on contributing, linting, and formatting.
 
 A full-featured project management platform clone built with Django and Next.js, implementing core Monday.com functionalities.
 
@@ -28,6 +30,17 @@ A full-featured project management platform clone built with Django and Next.js,
 - shadcn/ui components
 - Zustand for state management
 - Real-time updates (coming soon)
+
+## Linting & Contributing
+
+- To run lints and auto-fix issues:
+  ```bash
+  npm run lint
+  npm run format
+  ```
+- Please keep all code type-safe and avoid use of `any`.
+- All PATCH/PUT requests (especially automations) must send the full required payload per backend expectations.
+- Contributions are welcome! Please open a pull request with a clear description of your changes.
 
 ## Features
 

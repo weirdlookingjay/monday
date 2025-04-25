@@ -19,6 +19,8 @@ class AutomationTemplateSerializer(serializers.ModelSerializer):
         model = AutomationTemplate
         fields = ['id', 'category', 'name', 'description', 'supports_subitems', 'config_schema', 'default_conditions']
 
+from accounts.serializers import UserSerializer
+
 class AutomationSerializer(serializers.ModelSerializer):
     """
     The `config` field should be a dict with the following structure:
@@ -33,7 +35,7 @@ class AutomationSerializer(serializers.ModelSerializer):
     """
     template = serializers.PrimaryKeyRelatedField(queryset=AutomationTemplate.objects.all())
     board = serializers.PrimaryKeyRelatedField(queryset=Board.objects.all())
-    user = serializers.PrimaryKeyRelatedField(queryset=get_user_model().objects.all())
+    user = UserSerializer()
 
     def validate_config(self, value):
         # Validate that config['conditions'] is a list if present
@@ -43,4 +45,4 @@ class AutomationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Automation
-        fields = ['id', 'template', 'board', 'user', 'config', 'active', 'created']
+        fields = ['id', 'name', 'description', 'template', 'board', 'user', 'config', 'active', 'created']

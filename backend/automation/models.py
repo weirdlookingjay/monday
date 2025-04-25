@@ -24,9 +24,12 @@ class Automation(models.Model):
     template = models.ForeignKey(AutomationTemplate, on_delete=models.SET_NULL, null=True, blank=True)
     board = models.ForeignKey('boards.Board', on_delete=models.CASCADE, related_name='automation_automations')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='automation_automations')
+    name = models.CharField(max_length=255, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
     config = models.JSONField(default=dict)
     active = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.template or 'Custom'} for {self.board}"
