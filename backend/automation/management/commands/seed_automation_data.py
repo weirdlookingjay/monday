@@ -19,6 +19,20 @@ class Command(BaseCommand):
         notify_cat, _ = AutomationCategory.objects.get_or_create(name="Notifications", slug="notifications", icon="icon-notify")
         due_cat, _ = AutomationCategory.objects.get_or_create(name="Due Dates", slug="due-dates", icon="icon-due")
 
+        # Create a Custom template for blank automations
+        custom_cat, _ = AutomationCategory.objects.get_or_create(name="Custom", slug="custom", icon="icon-custom")
+        custom_template, _ = AutomationTemplate.objects.get_or_create(
+            category=custom_cat,
+            name="Custom",
+            defaults={
+                "description": "A blank template for building custom automations from scratch.",
+                "supports_subitems": False,
+                "config_schema": {},
+                "default_conditions": []
+            }
+        )
+        self.stdout.write(self.style.SUCCESS(f"Custom template ID: {custom_template.id}"))
+
         # Create 3 meaningful templates
         t1 = AutomationTemplate.objects.create(
             category=basic_cat,

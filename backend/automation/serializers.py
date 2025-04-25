@@ -35,7 +35,7 @@ class AutomationSerializer(serializers.ModelSerializer):
     """
     template = serializers.PrimaryKeyRelatedField(queryset=AutomationTemplate.objects.all())
     board = serializers.PrimaryKeyRelatedField(queryset=Board.objects.all())
-    user = UserSerializer()
+    user = serializers.PrimaryKeyRelatedField(queryset=get_user_model().objects.all())
 
     def validate_config(self, value):
         # Validate that config['conditions'] is a list if present

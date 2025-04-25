@@ -44,6 +44,12 @@ A full-featured project management platform clone built with Django and Next.js,
 
 ## Features
 
+- Automation modal always sends a valid template (default "Custom" template auto-selected on open)
+- Modal closes automatically after successful automation creation
+- All TypeScript and lint errors resolved in frontend code
+- Improved user experience: robust error handling, field validation, and loading states
+
+
 - [x] Custom User Model with email authentication
 - [x] Team Management
 - [x] Project (Board) creation from the dashboard UI
